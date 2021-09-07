@@ -9,4 +9,3 @@ jobs:
       - uses: BogDAAAMN/deta-deploy-action@v1.0.1
         with:
           deta-access-token: ${{ secrets.DETA_TOKEN }} #Deta access token https://docs.deta.sh/docs/cli/auth
-          deta-project: 'Helpboard' #Optional: Deta project name https://docs.deta.sh/docs/cli/commands/#deta-clone
