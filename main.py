@@ -1,8 +1,13 @@
+# Helpboard API
+# Version 3
+# Powered By Deta.sh
+# Built by @Brenden2008
+
 from fastapi import FastAPI
 
-app = FastAPI()
+api = FastAPI()
 
 
-@app.get("/")
+@api.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return "Helpboard API Version 3.0.0\nPowered by Deta.sh!"
