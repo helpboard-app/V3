@@ -10,4 +10,4 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return Helpboard API Version 3.0.0 | Powered by Deta.sh!
+    return "Helpboard API Version 3.0.0 | Powered by Deta.sh!"
