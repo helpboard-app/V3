@@ -1,5 +1,8 @@
-name: Deploy to Deta
-on: push
+name: Deploy to Deta Stable Release
+on:
+  push:
+    branches:
+      - Latest-stable
 
 jobs:
   deploy:
