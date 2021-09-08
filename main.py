@@ -6,9 +6,10 @@
 # Import Libraries
 from fastapi import FastAPI, Form
 from deta import Deta
+import os
 
 # Start Common Tools
-deta = Deta(${{ secrets.DETA_PROJECT_TOKEN }})
+deta = Deta(os.environ["DETA_KEY"])
 app = FastAPI()
 
 # Start Databases
