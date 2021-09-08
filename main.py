@@ -20,7 +20,7 @@ questions = deta.Base("questions")
 # Start Routes
 # Default Route | Displays the message below
 @app.get("/")
-def Get-Welcome-Message():
+def GetWelcomeMessage():
     return "Helpboard API Version 3.0.0 | Powered by Deta.sh!"
 
 # User Create Route | Creates a user
