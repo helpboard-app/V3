@@ -5,9 +5,9 @@
 
 from fastapi import FastAPI
 
-api = FastAPI()
+app = FastAPI()
 
 
-@api.get("/")
+@app.get("/")
 def read_root():
     return "Helpboard API Version 3.0.0\nPowered by Deta.sh!"
