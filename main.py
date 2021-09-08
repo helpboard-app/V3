@@ -27,3 +27,4 @@ def GetWelcomeMessage():
 @app.post("user/signup/")
 async def login(username: str = Form("username"), password: str = Form("password")):
     return {"username": username}
+    
