@@ -4,7 +4,7 @@
 # Built by @Brenden2008
 
 # Import Libraries
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 from deta import Deta
 import os
 from pydantic import BaseModel
@@ -23,13 +23,12 @@ class User(BaseModel):
     username: str
     password: str
     email: str
-    account_age: int
-    description: str
+    description: Optional[str] = None
 
 # Start Routes
 # Default Route | Displays the message below
 @app.get("/")
-def GetWelcomeMessage():
+def Home_Page():
     return "Helpboard API Version 3.0.0 | Powered by Deta.sh!"
 
 
