@@ -23,7 +23,6 @@ class User(BaseModel):
     username: str
     password: str
     email: str
-    description: Optional[str] = None
 
 # Start Routes
 # Default Route | Displays the message below
