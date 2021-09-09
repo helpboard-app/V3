@@ -4,9 +4,10 @@
 # Built by @Brenden2008
 
 # Import Libraries
-from fastapi import FastAPI, Form
+from fastapi import FastAPI
 from deta import Deta
 import os
+from pydantic import BaseModel
 
 # Start Common Tools
 deta = Deta()
@@ -17,6 +18,14 @@ users = deta.Base("users")
 boards = deta.Base("boards")
 questions = deta.Base("questions")
 
+# Declare Pydantic Models
+class User(BaseModel):
+    username: str
+    password: str
+    email: str
+    account_age: int
+    description: str
+
 # Start Routes
 # Default Route | Displays the message below
 @app.get("/")
@@ -25,6 +34,6 @@ def GetWelcomeMessage():
 
 
 # User Create Route | Creates a user
-@app.post("user/signup/")
-async def login(username: str = Form("username"), password: str = Form("password")):
-    return {"username": username}
+@app.post("/user/create")
+async def create_user(item: Item):
+    return item

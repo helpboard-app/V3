@@ -1,3 +1,4 @@
 FastAPI
 deta
 python-multipart
+pydantic
