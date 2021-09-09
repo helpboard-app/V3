@@ -34,5 +34,9 @@ def Home_Page():
 # User Create Route | Creates a user
 @app.post("/user/create")
 async def create_user(user: User):
-    users.put({"username": user.username, "password": user.password, "email": user.email}, user.username)
-    return users.get(user.username)
+    try:
+        users.put({"username": user.username, "password": user.password, "email": user.email}, user.username)
+    except:
+        return {success: 0}
+    else:
+        return {success: 1}
