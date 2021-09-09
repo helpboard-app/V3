@@ -34,4 +34,5 @@ def Home_Page():
 # User Create Route | Creates a user
 @app.post("/user/create")
 async def create_user(user: User):
-    return user
+    users.put({"username": user.username, "password": user.password, "email": user.email}, user.username)
+    return users.get(user.username)
