@@ -23,6 +23,7 @@ questions = deta.Base("questions")
 def GetWelcomeMessage():
     return "Helpboard API Version 3.0.0 | Powered by Deta.sh!"
 
+
 # User Create Route | Creates a user
 @app.post("user/signup/")
 async def login(username: str = Form("username"), password: str = Form("password")):
