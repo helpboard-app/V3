@@ -35,5 +35,5 @@ def GetWelcomeMessage():
 
 # User Create Route | Creates a user
 @app.post("/user/create")
-async def create_user(item: Item):
-    return item
+async def create_user(user: User):
+    return user
