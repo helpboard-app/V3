@@ -2,3 +2,4 @@ FastAPI
 deta
 python-multipart
 pydantic
+leveldb
