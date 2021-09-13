@@ -24,7 +24,6 @@ userdata = deta.Base("userdata")
 class User(BaseModel):
     username: str
     password: str
-    email: str
 
 # Start Routes
 # Default Route | Displays the message below
@@ -39,7 +38,7 @@ async def create_user(user: User, response: Response):
     if users.get(user.username) != user.username:
         session_key = random.randrange(0000000, 9999999, 3)
         try:
-            users.put({"username": user.username, "password": user.password, "email": user.email}, user.username)
+            users.put({"username": user.username, "password": user.password}, user.username)
             sessions.put({"session_key": session_key}, user.username)
         except:
             return "Failed to make user"
