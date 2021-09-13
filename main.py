@@ -44,8 +44,7 @@ async def create_user(user: User, response: Response):
         except:
             return "Failed to make user"
         else:
-            response.set_cookie(key="session_key", value=session_key)
-            response.set_cookie(key="username", value=user.username)
+            
             return "Success"
     else:
         return "User exists"
