@@ -1,0 +1,6 @@
+# Commands to start on workspace startup
+tasks:
+  - name: Setup Deta.sh
+    init: |
+      curl -fsSL https://get.deta.dev/cli.sh | sh
+      source ~/.bashrc
