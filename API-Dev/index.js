@@ -1,12 +1,9 @@
-// install express with `npm install express` 
-const express = require('express')
-const app = express()
-const port = 443
+const express = require("express");
 
-app.get('/', (req, res) => {
-  res.send('Test')
-})
+const app = express(); 
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+app.get("/", async (req, res) => {
+  res.send("Hello from my Deta Micro")
+});
+
+module.exports = app;
