@@ -4,3 +4,4 @@ tasks:
     init: |
       curl -fsSL https://get.deta.dev/cli.sh | sh
       source ~/.bashrc
+      export PATH="/home/gitpod/.deta/bin:$PATH"
