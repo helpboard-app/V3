@@ -59,7 +59,7 @@ app.get("/", async (req, res) => {
 });
 
 app.post('/user/create', function(req, res){
-  if (users.get(req.body.username) == null){
+  if (users.get(req.body.username) != null){
     try {
       users.put({username: req.body.username, password: req.body.password}, req.body.username)
       var authkey = String.random(256, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
