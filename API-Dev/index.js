@@ -25,8 +25,4 @@ app.get("/", async (req, res) => {
   res.send("Helpboard API Server | Version 3 | Powered by Deta.sh, Made by Brenden2008")
 });
 
-app.post('/', function(req, res){
-  res.send(req.body);
-});
-
 module.exports = app;
