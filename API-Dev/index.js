@@ -26,8 +26,7 @@ app.get("/", async (req, res) => {
 });
 
 app.post('/', function(req, res){
-  console.log(req.body);
-  res.send("recieved your request!");
+  res.send(req.body);
 });
 
 module.exports = app;
