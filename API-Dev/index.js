@@ -3,10 +3,11 @@ const { Base } = require("deta");
 var multer = require('multer');
 var upload = multer();
 
+const deta = Deta();
 // Declaring all the databases we need
-const users = Base("users");
-const helpboards = Base("helpboards");
-const questions = Base("questions");
+const users = deta.Base("users");
+const helpboards = deta.Base("helpboards");
+const questions = deta.Base("questions");
 
 const app = express(); 
 
