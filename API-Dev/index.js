@@ -26,7 +26,8 @@ app.get("/", async (req, res) => {
   res.send("Helpboard API Server | Version 3 | Powered by Deta.sh, Made by Brenden2008")
 });
 
-app.post('/', function(req, res){
+app.post('/user/create', function(req, res){
+  users.put({username: req.body.username, password: req.body.password}, req.body.username)
   res.send(req.body);
 });
 
