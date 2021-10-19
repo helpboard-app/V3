@@ -23,6 +23,19 @@ charactersLength));
  return result;
 }
 
+function checkauthkey(authkey) {
+  try {
+    if (Date.now() - authkeys.get(authkey).issuetime >= 7200000){
+      authkeys.delete(authkey)
+      return {validkey: 0};
+    } else {
+      return {validkey: 1, username: authkeys.get(authkey).username};
+    }
+  } catch (error){
+    return {success: 0, err: "The authkey provided was more than likely invalid. Happens if you run a non-active key twice."}
+  }
+}
+
 const app = express(); 
 
 app.use(express.json()); 
@@ -41,7 +54,8 @@ app.post('/user/create', function(req, res){
       users.put({username: req.body.username, password: req.body.password}, req.body.username)
       try {
         var authkey = makeid(256)
-        authkeys.put({username: req.body.username, authkey: authkey}, authkey)
+        var issuetime = Date.now();
+        authkeys.put({username: req.body.username, authkey: authkey, issuetime: issuetime}, authkey)
         res.cookie('auth', authkey).send({success: 1, statuscode: 101})
       } catch (error) {
         res.send({success: 0, err: error, errcode: 00})
@@ -52,6 +66,30 @@ app.post('/user/create', function(req, res){
   } else {
     res.send({success: 0, err: "Failed to create user, Username already exists.", errcode: 01});
   };
+});
+
+app.post('/user/auth', function(req, res){
+  if (users.get(req.body.username) != null && users.get(req.body.username).password == req.body.password){
+    res.send({success: 0, err: "Failed to authenticate user, Username does not already exist or incorrect password.", errcode: 11});
+  } else {
+    try {
+      var authkey = makeid(256)
+      var issuetime = Date.now();
+      authkeys.put({username: req.body.username, authkey: authkey, issuetime: issuetime}, authkey)
+      res.cookie('auth', authkey).send({success: 1, statuscode: 101})
+    } catch (error) {
+      res.send({success: 0, err: error, errcode: 00})
+    }
+  };
+});
+
+app.post('/user/logout', function(req, res){
+  if (req.body.username == authkeys.get(req.body.authkey).username){
+    authkeys.delete(req.body.authkey);
+    res.send({success: 1})
+  } else {
+    res.send({success: 0})
+  }
 });
 
 module.exports = app;
