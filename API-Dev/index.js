@@ -83,13 +83,8 @@ app.post('/user/auth', function(req, res){
 });
 
 app.post('/user/logout', function(req, res){
-  try {
-    const res = await authkeys.delete(req.body.authkey);
-    res.send({success: 1});
-  }
-  catch(err) {
-    res.send({success: 0, error: err});
-  }
+  const res = await authkeys.delete(req.body.authkey);
+  res.send({success: 1});
 });
 
 module.exports = app;
