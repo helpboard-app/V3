@@ -83,11 +83,12 @@ app.post('/user/auth', function(req, res){
 });
 
 app.post('/user/logout', function(req, res){
-  if (req.body.authkey == authkeys.get(req.body.authkey).authkey){
+  try {
     authkeys.delete(req.body.authkey);
-    res.send({success: 1})
-  } else {
-    res.send({success: 0})
+    res.send({success: 1});
+  }
+  catch(err) {
+    res.send({success: 0, error: err});
   }
 });
 
