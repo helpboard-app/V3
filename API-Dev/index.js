@@ -82,7 +82,7 @@ app.post('/user/auth', function(req, res){
 });
 
 app.post('/user/logout', function(req, res){
-  const res = await authkeys.delete(req.body.authkey);
+  await authkeys.delete(req.cookies.auth);
   res.send({success: 1});
 });
 
