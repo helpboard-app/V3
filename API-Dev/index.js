@@ -84,7 +84,7 @@ app.post('/user/auth', function(req, res){
 
 app.post('/user/logout', function(req, res){
   try {
-    authkeys.delete(req.body.authkey);
+    const res = await authkeys.delete(req.body.authkey);
     res.send({success: 1});
   }
   catch(err) {
