@@ -73,9 +73,8 @@ app.post('/user/auth', function(req, res){
   } else {
     try {
       var authkey = makeid(256)
-      var issuetime = Date.now();
-      authkeys.put({username: req.body.username, authkey: authkey, issuetime: issuetime}, authkey)
-      res.cookie('auth', authkey).send({success: 1, statuscode: 101})
+      authkeys.put({username: req.body.username, authkey: authkey}, authkey)
+      res.cookie('auth', authkey, {maxAge: 10800}).send({success: 1, statuscode: 101})
     } catch (error) {
       res.send({success: 0, err: error, errcode: 00})
     }
