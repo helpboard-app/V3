@@ -17,10 +17,9 @@ function makeid(length) {
   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
   for ( var i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * 
-charactersLength));
- }
- return result;
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }
 
 function checkauthkey(authkey) {
@@ -84,7 +83,7 @@ app.post('/user/auth', function(req, res){
 });
 
 app.post('/user/logout', function(req, res){
-  if (req.body.username == authkeys.get(req.body.authkey).username){
+  if (req.body.authkey == authkeys.get(req.body.authkey).authkey){
     authkeys.delete(req.body.authkey);
     res.send({success: 1})
   } else {
