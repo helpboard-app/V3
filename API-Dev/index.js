@@ -34,7 +34,7 @@ app.get("/", async (req, res) => {
   res.send("Helpboard API Server | Version 3 | Powered by Deta.sh, Made by Brenden2008")
 });
 
-app.get('/login/authcheck', (req, res) => {
+app.get('/authcheck', (req, res) => {
   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
 
