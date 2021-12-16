@@ -4,6 +4,7 @@ var multer = require('multer');
 var upload = multer();
 var cookieParser = require('cookie-parser');
 const { auth } = require('express-openid-connect');
+const { requiresAuth } = require('express-openid-connect');
 
 const config = {
   authRequired: false,
@@ -34,8 +35,8 @@ app.get("/", async (req, res) => {
   res.send("Helpboard API Server | Version 3 | Powered by Deta.sh, Made by Brenden2008")
 });
 
-app.get('/authcheck', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+app.get('/profile', requiresAuth(), (req, res) => {
+  res.send(JSON.stringify(req.oidc.user));
 });
 
 module.exports = app;
