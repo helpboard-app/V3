@@ -17,8 +17,6 @@ const config = {
 
 const deta = Deta();
 // Declaring all the databases we need
-// const users = deta.Base("users");
-// const authkeys = deta.Base("authkeys");
 const helpboards = deta.Base("helpboards");
 const questions = deta.Base("questions");
 
@@ -31,12 +29,18 @@ app.use(upload.array());
 app.use(express.static('public'));
 app.use(auth(config));
 
+// Just sayin what we are!
 app.get("/", async (req, res) => {
-  res.send("Helpboard API Server | Version 3 | Powered by Deta.sh, Made by Brenden2008")
+  res.send("Helpboard API Server | Version 3 | Powered by Deta.sh, Made by Brenden2008");
 });
 
+// Test Route For Checking Your OIDC Profile.
 app.get('/profile', requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
+});
+
+app.post('/helpboard/create', requiresAuth(), (req, res) => {
+
 });
 
 module.exports = app;
