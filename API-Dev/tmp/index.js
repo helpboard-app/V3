@@ -43,15 +43,9 @@ app.get('/profile', requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user.email));
 });
 
-app.get('/helpboard/create', requiresAuth(), (req, res) => {
-  var helpboard_id = getRndInteger(111111111, 999999999).toString();
-  try {
-    helpboards.insert({helpboard_id: helpboard_id, helpboard_owner: req.oidc.user.email, key: helpboard_id});
-  } catch {
-    res.send("{success: 0, err: 'Helpboard creation failed. Please try again.'")
-  } finally {
-    res.send(JSON.stringify({success: 1, helpboard_id: helpboard_id, helpboard_owner: req.oidc.user.email}));
-  }
+app.post('/helpboard/create', requiresAuth(), (req, res) => {
+  const helpboard_id = getRndInteger(111111111, 999999999)
+  const helpboard_insert = helpboards.insert({helpboard_id: helpboard_id, helpboard_owner: req.oidc.user.email}, helpboard_id)
 });
 
 module.exports = app;

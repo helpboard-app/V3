@@ -15,10 +15,6 @@ const config = {
   issuerBaseURL: 'https://boardapps.us.auth0.com'
 };
 
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) ) + min;
-}
-
 const deta = Deta();
 // Declaring all the databases we need
 const helpboards = deta.Base("helpboards");
@@ -40,18 +36,11 @@ app.get("/", async (req, res) => {
 
 // Test Route For Checking Your OIDC Profile.
 app.get('/profile', requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user.email));
+  res.send(JSON.stringify(req.oidc.user));
 });
 
-app.get('/helpboard/create', requiresAuth(), (req, res) => {
-  var helpboard_id = getRndInteger(111111111, 999999999).toString();
-  try {
-    helpboards.insert({helpboard_id: helpboard_id, helpboard_owner: req.oidc.user.email, key: helpboard_id});
-  } catch {
-    res.send("{success: 0, err: 'Helpboard creation failed. Please try again.'")
-  } finally {
-    res.send(JSON.stringify({success: 1, helpboard_id: helpboard_id, helpboard_owner: req.oidc.user.email}));
-  }
+app.post('/helpboard/create', requiresAuth(), (req, res) => {
+
 });
 
 module.exports = app;
