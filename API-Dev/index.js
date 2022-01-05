@@ -43,6 +43,7 @@ app.get('/profile', requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user.email));
 });
 
+// Create Helpboard
 app.get('/helpboard/create', requiresAuth(), (req, res) => {
   var helpboard_id = getRndInteger(111111111, 999999999).toString();
   try {
@@ -52,6 +53,23 @@ app.get('/helpboard/create', requiresAuth(), (req, res) => {
   } finally {
     res.send(JSON.stringify({success: 1, helpboard_id: helpboard_id, helpboard_owner: req.oidc.user.email}));
   }
+});
+
+// Delete Helpboard
+app.post('/helpboard/delete', requiresAuth(), (req, res) => {
+  var helpboard_id = req.body.helpboard_id
+  var email = req.oidc.user.email
+  try {
+    const helpboard = db.get(helpboard_id);
+    if (helpboard.helpboard_owner == email) {
+      helpboards.delete(helpboard_id);
+      res.send("{success: 1}")
+    } else {
+      res.send("{success: 0, err: 'Helpboard deletion failed. Not your helpboard.'}")
+    };
+  } catch {
+    res.send("{success: 0, err: 'Helpboard deletion failed. Please try again.'")
+  };
 });
 
 module.exports = app;
