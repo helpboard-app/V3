@@ -62,7 +62,7 @@ app.post('/helpboard/delete', requiresAuth(), (req, res) => {
   try {
     var helpboard_id = req.body.helpboard_id
     var email = req.oidc.user.email
-    const helpboard = helpboards.get(helpboard_id);
+    var helpboard = helpboards.get(helpboard_id);
     helpboard.then((data) => {
       if (data.helpboard_owner == email) {
         helpboards.delete(helpboard_id);
@@ -86,8 +86,13 @@ app.post('/question/add', requiresAuth(), (req, res) => {
       var idgen = crypto.randomBytes(20).toString('hex');
       var id = idgen;
       var dbquestion = questions.put({nickname: nickname, question: question, email: email, helpboard: helpboard_id, question_id: id}, id);
-      dbquestion.then((data) => {
-        res.send({success: 1, question_id: data.question_id})
+      var helpboard1 = helpboards.get(helpboard_id);
+      helpboard1.then((data1) => {
+        if(data1.helpboard_active == true){
+          res.send({success: 1, question_id: id})
+        } else {
+          res.send("{success: 0, err: 'Helpboard doesn't exist or is not active.'")
+        }
       });
     } catch {
       res.send("{success: 0}")
