@@ -148,7 +148,10 @@ app.post('/question/all', requiresAuth(), (req, res) => {
     dbquestion.then((data) => {
       helpboard.then((data1) => {
         if(email == data1.helpboard_owner){
-          res.send(JSON.stringify(data));
+          for (let index = 0; index < data.length; ++index) {
+            const element = theArray[index];
+            console.log(element.nickname);
+          }
         } else {
           res.send("{success: 0, err: 'Not your helpboard.'}")
         }
