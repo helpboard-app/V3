@@ -139,4 +139,26 @@ app.post('/question/delete', requiresAuth(), (req, res) => {
   }
 });
 
+// List questions
+app.post('/question/all', requiresAuth(), (req, res) => {
+  try {
+    var helpboard_id = req.body.helpboard_id;
+    var email = req.oidc.user.email;
+    var id = req.body.question_id;
+    var dbquestion = questions.fetch({"helpboard_id": helpboard_id.toString()});
+    var helpboard = helpboards.get(helpboard_id);
+    dbquestion.then((data) => {
+      helpboard.then((data1) => {
+        if(email == data1.helpboard_owner){
+          res.send(JSON.stringify(data));
+        } else {
+          res.send("{success: 0, err: 'Not your helpboard.'}")
+        }
+      })
+    });
+  } catch {
+    res.send("{success: 0}")
+  }
+});
+
 module.exports = app;
