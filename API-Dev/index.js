@@ -11,7 +11,7 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: process.env.auth0key,
-  baseURL: 'https://hbv3-dev.deta.dev',
+  baseURL: 'https://xrh4b6.deta.dev/',
   clientID: 'pExK4AD4X4wNZFtNWthbVpD0budOK2Kf',
   issuerBaseURL: 'https://boardapps.us.auth0.com'
 };
@@ -59,9 +59,9 @@ app.get('/helpboard/create', requiresAuth(), (req, res) => {
 
 // Delete Helpboard
 app.post('/helpboard/delete', requiresAuth(), (req, res) => {
-  var helpboard_id = req.body.helpboard_id
-  var email = req.oidc.user.email
   try {
+    var helpboard_id = req.body.helpboard_id
+    var email = req.oidc.user.email
     const helpboard = helpboards.get(helpboard_id);
     helpboard.then((data) => {
       if (data.helpboard_owner == email) {
@@ -78,27 +78,20 @@ app.post('/helpboard/delete', requiresAuth(), (req, res) => {
 
 // Add a question
 app.post('/question/add', requiresAuth(), (req, res) => {
-  var helpboard_id = req.body.helpboard_id;
-  var question = req.body.question;
-  var nickname = req.oidc.user.nickname
-  var email = req.oidc.user.email;
-  try {
-    const helpboard = helpboards.get(helpboard_id);
-    helpboard.then((data) => {
-      if (data.helpboard_active == true) {
-        var idgen = crypto.randomBytes(20).toString('hex');
-        var id = idgen;
-        var dbquestion = questions.put({nickname: nickname, question: question, email: email, helpboard: helpboard_id, question_id: id}, id);
-        dbquestion.then((data) => {
-          res.send({success: 1, question_id: data.question_id})
-        });
-      } else {
-        res.send({success: 0, err: 'Question add failed. Helpboard does not exist or is not active.'})
-      };
-    });
-  } catch {
-    res.send({success: 0, err: 'Question add failed. Please try again.'})
-  };
+    try {
+      var helpboard_id = req.body.helpboard_id;
+      var question = req.body.question;
+      var nickname = req.oidc.user.nickname;
+      var email = req.oidc.user.email;
+      var idgen = crypto.randomBytes(20).toString('hex');
+      var id = idgen;
+      var dbquestion = questions.put({nickname: nickname, question: question, email: email, helpboard: helpboard_id, question_id: id}, id);
+      dbquestion.then((data) => {
+        res.send({success: 1, question_id: data.question_id})
+      });
+    } catch {
+      res.send("{success: 0}")
+    }
 });
 
 module.exports = app;
