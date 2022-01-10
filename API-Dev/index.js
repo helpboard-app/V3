@@ -76,6 +76,24 @@ app.post('/helpboard/delete', requiresAuth(), (req, res) => {
   };
 });
 
+// Get a helpboard
+app.post('/helpboard/get', requiresAuth(), (req, res) => {
+  try {
+    var helpboard_id = req.body.helpboard_id;
+    var email = req.oidc.user.email;
+    var helpboard = helpboards.get(helpboard_id);
+    helpboard.then((data1) => {
+      if (email == data1.helpboard_owner) {
+        res.send({ success: 1, helpboard_id: data1.helpboard_id, helpboard_owner: data1.helpboard_owner, helpboard_active: data1.helpboard_active })
+      } else {
+        res.send("{success: 0, err: 'Not your helpboard.'}")
+      }
+    })
+  } catch {
+    res.send("{success: 0}")
+  }
+});
+
 // Add a question
 app.post('/question/add', requiresAuth(), (req, res) => {
   try {
