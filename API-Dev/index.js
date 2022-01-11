@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
 var crypto = require("crypto");
+const e = require("express");
 
 const config = {
   authRequired: false,
@@ -120,10 +121,10 @@ app.post('/question/get', requiresAuth(), (req, res) => {
     var helpboard = helpboards.get(helpboard_id);
     dbquestion.then((data) => {
       helpboard.then((data1) => {
-        if (email == data1.helpboard_owner) {
+        if (email == data1.helpboard_owner || data.email == email) {
           res.send({ success: 1, nickname: data.nickname, question: data.question, email: data.email, helpboard: data.helpboard, question_id: data.question_id })
         } else {
-          res.send("{success: 0, err: 'Not your helpboard.'}")
+          res.send("{success: 0, err: 'Not your helpboard, or question.'}")
         }
       })
     });
