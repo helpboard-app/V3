@@ -111,6 +111,22 @@ app.post('/question/add', requiresAuth(), (req, res) => {
   }
 });
 
+// Add a question TEST
+app.post('/question/add1', (req, res) => {
+  try {
+    var helpboard_id = req.body.helpboard_id;
+    var question = req.body.question;
+    var nickname = "asdf";
+    var email = "sdaf@asdf.com";
+    var idgen = crypto.randomBytes(20).toString('hex');
+    var id = idgen;
+    var dbquestion = questions.put({ nickname: nickname, question: question, email: email, helpboard: helpboard_id, question_id: id }, id);
+    res.send({ success: 1, question_id: id })
+  } catch {
+    res.send("{success: 0}")
+  }
+});
+
 // Get a question
 app.post('/question/get', requiresAuth(), (req, res) => {
   try {
