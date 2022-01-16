@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
 var crypto = require("crypto");
+const e = require("express");
 
 const config = {
   authRequired: false,
@@ -110,6 +111,22 @@ app.post('/question/add', requiresAuth(), (req, res) => {
   }
 });
 
+// Add a question TEST
+app.post('/question/add1', (req, res) => {
+  try {
+    var helpboard_id = req.body.helpboard_id;
+    var question = req.body.question;
+    var nickname = "asdf";
+    var email = "sdaf@asdf.com";
+    var idgen = crypto.randomBytes(20).toString('hex');
+    var id = idgen;
+    var dbquestion = questions.put({ nickname: nickname, question: question, email: email, helpboard: helpboard_id, question_id: id }, id);
+    res.send({ success: 1, question_id: id })
+  } catch {
+    res.send("{success: 0}")
+  }
+});
+
 // Get a question
 app.post('/question/get', requiresAuth(), (req, res) => {
   try {
@@ -120,10 +137,10 @@ app.post('/question/get', requiresAuth(), (req, res) => {
     var helpboard = helpboards.get(helpboard_id);
     dbquestion.then((data) => {
       helpboard.then((data1) => {
-        if (email == data1.helpboard_owner) {
+        if (email == data1.helpboard_owner || data.email == email) {
           res.send({ success: 1, nickname: data.nickname, question: data.question, email: data.email, helpboard: data.helpboard, question_id: data.question_id })
         } else {
-          res.send("{success: 0, err: 'Not your helpboard.'}")
+          res.send("{success: 0, err: 'Not your helpboard, or question.'}")
         }
       })
     });
