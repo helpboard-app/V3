@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
 var crypto = require("crypto");
-const e = require("express");
 
 const config = {
   authRequired: false,
@@ -42,12 +41,12 @@ app.get("/", async (req, res) => {
 });
 
 // Test Route For Checking Your OIDC Profile.
-app.get('/profile', requiresAuth(), (req, res) => {
+app.get('/profile', requiresAuth(), async (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
 });
 
 // Create Helpboard
-app.get('/helpboard/create', requiresAuth(), (req, res) => {
+app.get('/helpboard/create', requiresAuth(), async (req, res) => {
   var helpboard_id = getRndInteger(111111111, 999999999).toString();
   try {
     helpboards.insert({ helpboard_id: helpboard_id, helpboard_owner: req.oidc.user.email, helpboard_active: true, key: helpboard_id });
@@ -59,7 +58,7 @@ app.get('/helpboard/create', requiresAuth(), (req, res) => {
 });
 
 // Delete Helpboard
-app.post('/helpboard/delete', requiresAuth(), (req, res) => {
+app.post('/helpboard/delete', requiresAuth(), async (req, res) => {
   try {
     var helpboard_id = req.body.helpboard_id
     var email = req.oidc.user.email
@@ -78,7 +77,7 @@ app.post('/helpboard/delete', requiresAuth(), (req, res) => {
 });
 
 // Get a helpboard
-app.post('/helpboard/get', requiresAuth(), (req, res) => {
+app.post('/helpboard/get', requiresAuth(), async (req, res) => {
   try {
     var helpboard_id = req.body.helpboard_id;
     var email = req.oidc.user.email;
@@ -96,7 +95,7 @@ app.post('/helpboard/get', requiresAuth(), (req, res) => {
 });
 
 // Add a question
-app.post('/question/add', requiresAuth(), (req, res) => {
+app.post('/question/add', requiresAuth(), async (req, res) => {
   try {
     var helpboard_id = req.body.helpboard_id;
     var question = req.body.question;
@@ -111,24 +110,8 @@ app.post('/question/add', requiresAuth(), (req, res) => {
   }
 });
 
-// Add a question TEST
-app.post('/question/add1', (req, res) => {
-  try {
-    var helpboard_id = req.body.helpboard_id;
-    var question = req.body.question;
-    var nickname = "asdf";
-    var email = "sdaf@asdf.com";
-    var idgen = crypto.randomBytes(20).toString('hex');
-    var id = idgen;
-    var dbquestion = questions.put({ nickname: nickname, question: question, email: email, helpboard: helpboard_id, question_id: id }, id);
-    res.send({ success: 1, question_id: id })
-  } catch {
-    res.send("{success: 0}")
-  }
-});
-
 // Get a question
-app.post('/question/get', requiresAuth(), (req, res) => {
+app.post('/question/get', requiresAuth(), async (req, res) => {
   try {
     var helpboard_id = req.body.helpboard_id;
     var email = req.oidc.user.email;
@@ -150,7 +133,7 @@ app.post('/question/get', requiresAuth(), (req, res) => {
 });
 
 // Delete a question
-app.post('/question/delete', requiresAuth(), (req, res) => {
+app.post('/question/delete', requiresAuth(), async (req, res) => {
   try {
     var helpboard_id = req.body.helpboard_id;
     var email = req.oidc.user.email;
