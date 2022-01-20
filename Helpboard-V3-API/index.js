@@ -40,9 +40,14 @@ app.get("/", async (req, res) => {
   res.send("Helpboard API Server | Version 3 | Powered by Deta.sh, Made by Brenden2008");
 });
 
-// Test Route For Checking Your OIDC Profile.
-app.get('/profile', requiresAuth(), async (req, res) => {
+// Route For Checking Your OIDC Profile.
+app.get('user/profile', requiresAuth(), async (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
+});
+
+// Login
+app.get('user/login', requiresAuth(), async (req, res) => {
+  res.redirect(req.headers.referer);
 });
 
 // Create Helpboard
