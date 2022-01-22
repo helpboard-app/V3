@@ -1,3 +1,8 @@
+// Helpboard API
+// Version 3
+// Have a chill day (/¯ ◡ ‿ ◡)/¯
+// Made by Brenden2008
+
 const express = require("express");
 const { Deta } = require('deta');
 var multer = require('multer');
@@ -6,6 +11,7 @@ var cookieParser = require('cookie-parser');
 const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
 var crypto = require("crypto");
+var session = require('express-session');
 
 const config = {
   authRequired: false,
@@ -24,6 +30,7 @@ const deta = Deta();
 // Declaring all the databases we need
 const helpboards = deta.Base("helpboards");
 const questions = deta.Base("questions");
+const hb_config = deta.Base("hb_config");
 
 const app = express();
 
@@ -34,6 +41,7 @@ app.use(upload.array());
 app.use(express.static('public'));
 app.use(auth(config));
 app.use('/static', express.static('static'))
+app.use(session({secret: process.env.auth0key}));
 
 // Just sayin what we are!
 app.get("/", async (req, res) => {

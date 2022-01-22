@@ -4,7 +4,8 @@
     "cookie-parser": "^1.4.6",
     "deta": "^1.0.1",
     "express": "^4.17.2",
-    "multer": "^1.4.3",
-    "express-openid-connect": "latest"
+    "express-openid-connect": "latest",
+    "express-session": "^1.17.2",
+    "multer": "^1.4.3"
   }
 }
